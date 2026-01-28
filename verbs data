@@ -1,0 +1,337 @@
+{
+  "ser": {
+    "translation": "to be (identity)",
+    "presente": {
+      "yo": "soy",
+      "tú": "eres",
+      "él/ella/usted": "es",
+      "nosotros/nosotras": "somos",
+      "vosotros/vosotras": "sois",
+      "ellos/ellas/ustedes": "son"
+    },
+    "pretérito": {
+      "yo": "fui",
+      "tú": "fuiste",
+      "él/ella/usted": "fue",
+      "nosotros/nosotras": "fuimos",
+      "vosotros/vosotras": "fuisteis",
+      "ellos/ellas/ustedes": "fueron"
+    },
+    "imperfecto": {
+      "yo": "era",
+      "tú": "eras",
+      "él/ella/usted": "era",
+      "nosotros/nosotras": "éramos",
+      "vosotros/vosotras": "erais",
+      "ellos/ellas/ustedes": "eran"
+    },
+    "futuro": {
+      "yo": "seré",
+      "tú": "serás",
+      "él/ella/usted": "será",
+      "nosotros/nosotras": "seremos",
+      "vosotros/vosotras": "seréis",
+      "ellos/ellas/ustedes": "serán"
+    },
+    "imperativo": {
+      "tú": "sé",
+      "usted": "sea",
+      "vosotros/vosotras": "sed"
+    }
+  },
+  "ir": {
+    "translation": "to go",
+    "presente": {
+      "yo": "voy",
+      "tú": "vas",
+      "él/ella/usted": "va",
+      "nosotros/nosotras": "vamos",
+      "vosotros/vosotras": "vais",
+      "ellos/ellas/ustedes": "van"
+    },
+    "pretérito": {
+      "yo": "fui",
+      "tú": "fuiste",
+      "él/ella/usted": "fue",
+      "nosotros/nosotras": "fuimos",
+      "vosotros/vosotras": "fuisteis",
+      "ellos/ellas/ustedes": "fueron"
+    },
+    "imperfecto": {
+      "yo": "iba",
+      "tú": "ibas",
+      "él/ella/usted": "iba",
+      "nosotros/nosotras": "íbamos",
+      "vosotros/vosotras": "ibais",
+      "ellos/ellas/ustedes": "iban"
+    },
+    "futuro": {
+      "yo": "iré",
+      "tú": "irás",
+      "él/ella/usted": "irá",
+      "nosotros/nosotras": "iremos",
+      "vosotros/vosotras": "iréis",
+      "ellos/ellas/ustedes": "irán"
+    },
+    "imperativo": {
+      "tú": "ve",
+      "usted": "vaya",
+      "vosotros/vosotras": "id"
+    }
+  },
+  "hacer": {
+    "translation": "to do/make",
+    "presente": {
+      "yo": "hago",
+      "tú": "haces",
+      "él/ella/usted": "hace",
+      "nosotros/nosotras": "hacemos",
+      "vosotros/vosotras": "hacéis",
+      "ellos/ellas/ustedes": "hacen"
+    },
+    "pretérito": {
+      "yo": "hice",
+      "tú": "hiciste",
+      "él/ella/usted": "hizo",
+      "nosotros/nosotras": "hicimos",
+      "vosotros/vosotras": "hicisteis",
+      "ellos/ellas/ustedes": "hicieron"
+    },
+    "imperfecto": {
+      "yo": "hacía",
+      "tú": "hacías",
+      "él/ella/usted": "hacía",
+      "nosotros/nosotras": "hacíamos",
+      "vosotros/vosotras": "hacíais",
+      "ellos/ellas/ustedes": "hacían"
+    },
+    "futuro": {
+      "yo": "haré",
+      "tú": "harás",
+      "él/ella/usted": "hará",
+      "nosotros/nosotras": "haremos",
+      "vosotros/vosotras": "haréis",
+      "ellos/ellas/ustedes": "harán"
+    },
+    "imperativo": {
+      "tú": "haz",
+      "usted": "haga",
+      "vosotros/vosotras": "haced"
+    }
+  },
+  "estar": {
+    "translation": "to be (location/state)",
+    "presente": {
+      "yo": "estoy",
+      "tú": "estás",
+      "él/ella/usted": "está",
+      "nosotros/nosotras": "estamos",
+      "vosotros/vosotras": "estáis",
+      "ellos/ellas/ustedes": "están"
+    },
+    "pretérito": {
+      "yo": "estuve",
+      "tú": "estuviste",
+      "él/ella/usted": "estuvo",
+      "nosotros/nosotras": "estuvimos",
+      "vosotros/vosotras": "estuvisteis",
+      "ellos/ellas/ustedes": "estuvieron"
+    },
+    "imperfecto": {
+      "yo": "estaba",
+      "tú": "estabas",
+      "él/ella/usted": "estaba",
+      "nosotros/nosotras": "estábamos",
+      "vosotros/vosotras": "estabais",
+      "ellos/ellas/ustedes": "estaban"
+    },
+    "futuro": {
+      "yo": "estaré",
+      "tú": "estarás",
+      "él/ella/usted": "estará",
+      "nosotros/nosotras": "estaremos",
+      "vosotros/vosotras": "estaréis",
+      "ellos/ellas/ustedes": "estarán"
+    },
+    "imperativo": {
+      "tú": "está",
+      "usted": "esté",
+      "vosotros/vosotras": "estad"
+    }
+  },
+  "ver": {
+    "translation": "to see",
+    "presente": {
+      "yo": "veo",
+      "tú": "ves",
+      "él/ella/usted": "ve",
+      "nosotros/nosotras": "vemos",
+      "vosotros/vosotras": "veis",
+      "ellos/ellas/ustedes": "ven"
+    },
+    "pretérito": {
+      "yo": "vi",
+      "tú": "viste",
+      "él/ella/usted": "vio",
+      "nosotros/nosotras": "vimos",
+      "vosotros/vosotras": "visteis",
+      "ellos/ellas/ustedes": "vieron"
+    },
+    "imperfecto": {
+      "yo": "veía",
+      "tú": "veías",
+      "él/ella/usted": "veía",
+      "nosotros/nosotras": "veíamos",
+      "vosotros/vosotras": "veíais",
+      "ellos/ellas/ustedes": "veían"
+    },
+    "futuro": {
+      "yo": "veré",
+      "tú": "verás",
+      "él/ella/usted": "verá",
+      "nosotros/nosotras": "veremos",
+      "vosotros/vosotras": "veréis",
+      "ellos/ellas/ustedes": "verán"
+    },
+    "imperativo": {
+      "tú": "ve",
+      "usted": "vea",
+      "vosotros/vosotras": "ved"
+    }
+  },
+  "sentir": {
+    "translation": "to feel",
+    "presente": {
+      "yo": "siento",
+      "tú": "sientes",
+      "él/ella/usted": "siente",
+      "nosotros/nosotras": "sentimos",
+      "vosotros/vosotras": "sentís",
+      "ellos/ellas/ustedes": "sienten"
+    },
+    "pretérito": {
+      "yo": "sentí",
+      "tú": "sentiste",
+      "él/ella/usted": "sintió",
+      "nosotros/nosotras": "sentimos",
+      "vosotros/vosotras": "sentisteis",
+      "ellos/ellas/ustedes": "sintieron"
+    },
+    "imperfecto": {
+      "yo": "sentía",
+      "tú": "sentías",
+      "él/ella/usted": "sentía",
+      "nosotros/nosotras": "sentíamos",
+      "vosotros/vosotras": "sentíais",
+      "ellos/ellas/ustedes": "sentían"
+    },
+    "futuro": {
+      "yo": "sentiré",
+      "tú": "sentirás",
+      "él/ella/usted": "sentirá",
+      "nosotros/nosotras": "sentiremos",
+      "vosotros/vosotras": "sentiréis",
+      "ellos/ellas/ustedes": "sentirán"
+    },
+    "imperativo": {
+      "tú": "siente",
+      "usted": "sienta",
+      "vosotros/vosotras": "sentid"
+    }
+  },
+  "comer": {
+    "translation": "to eat",
+    "presente": {
+      "yo": "como",
+      "tú": "comes",
+      "él/ella/usted": "come",
+      "nosotros/nosotras": "comemos",
+      "vosotros/vosotras": "coméis",
+      "ellos/ellas/ustedes": "comen"
+    },
+    "pretérito": {
+      "yo": "comí",
+      "tú": "comiste",
+      "él/ella/usted": "comió",
+      "nosotros/nosotras": "comimos",
+      "vosotros/vosotras": "comisteis",
+      "ellos/ellas/ustedes": "comieron"
+    },
+    "imperfecto": {
+      "yo": "comía",
+      "tú": "comías",
+      "él/ella/usted": "comía",
+      "nosotros/nosotras": "comíamos",
+      "vosotros/vosotras": "comíais",
+      "ellos/ellas/ustedes": "comían"
+    },
+    "futuro": {
+      "yo": "comeré",
+      "tú": "comerás",
+      "él/ella/usted": "comerá",
+      "nosotros/nosotras": "comeremos",
+      "vosotros/vosotras": "comeréis",
+      "ellos/ellas/ustedes": "comerán"
+    },
+    "imperativo": {
+      "tú": "come",
+      "usted": "coma",
+      "vosotros/vosotras": "comed"
+    }
+  },
+  "llevar": {
+    "translation": "to take/carry/wear",
+    "presente": {
+      "yo": "llevo",
+      "tú": "llevas",
+      "él/ella/usted": "lleva",
+      "nosotros/nosotras": "llevamos",
+      "vosotros/vosotras": "lleváis",
+      "ellos/ellas/ustedes": "llevan"
+    },
+    "pretérito": {
+      "yo": "llevé",
+      "tú": "llevaste",
+      "él/ella/usted": "llevó",
+      "nosotros/nosotras": "llevamos",
+      "vosotros/vosotras": "llevasteis",
+      "ellos/ellas/ustedes": "llevaron"
+    },
+    "imperfecto": {
+      "yo": "llevaba",
+      "tú": "llevabas",
+      "él/ella/usted": "llevaba",
+      "nosotros/nosotras": "llevábamos",
+      "vosotros/vosotras": "llevabais",
+      "ellos/ellas/ustedes": "llevaban"
+    },
+    "futuro": {
+      "yo": "llevaré",
+      "tú": "llevarás",
+      "él/ella/usted": "llevará",
+      "nosotros/nosotras": "llevaremos",
+      "vosotros/vosotras": "llevaréis",
+      "ellos/ellas/ustedes": "llevarán"
+    },
+    "imperativo": {
+      "tú": "lleva",
+      "usted": "lleve",
+      "vosotros/vosotras": "llevad"
+    }
+  },
+  "llover": {
+    "translation": "to rain",
+    "presente": {
+      "él/ella/usted": "llueve"
+    },
+    "pretérito": {
+      "él/ella/usted": "llovió"
+    },
+    "imperfecto": {
+      "él/ella/usted": "llovía"
+    },
+    "futuro": {
+      "él/ella/usted": "lloverá"
+    }
+  }
+}
