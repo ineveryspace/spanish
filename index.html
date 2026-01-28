@@ -461,11 +461,40 @@
         }
 
         .hidden {
-            display: none;
-        }
+    display: none;
+}
+
+.back-button-fixed {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 50px;
+    height: 50px;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-size: 1.5rem;
+    color: var(--accent-primary);
+}
+
+.back-button-fixed:hover {
+    border-color: var(--accent-primary);
+    transform: translateX(-3px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
     </style>
 </head>
 <body>
+    <div class="back-button-fixed hidden" id="backButtonFixed" onclick="backToStart()">
+        ←
+    </div>
+    
     <div class="container">
         <header>
             <h1>Conjugación</h1>
@@ -513,10 +542,9 @@
                 <div id="feedback" class="feedback hidden"></div>
                 
                 <div class="buttons">
-                    <button class="btn btn-primary" id="submitBtn" onclick="checkAnswer()">Submit</button>
-                    <button class="btn btn-secondary btn-skip" id="skipBtn" onclick="skipQuestion()">Skip</button>
-                    <button class="btn btn-secondary" id="backBtn" onclick="backToStart()">Back to Start</button>
-                </div>
+    <button class="btn btn-primary" id="submitBtn" onclick="checkAnswer()">Submit</button>
+    <button class="btn btn-secondary btn-skip" id="skipBtn" onclick="skipQuestion()">Skip</button>
+</div>
             </div>
         </div>
 
@@ -670,16 +698,17 @@
         }
 
         async function startSession(mode) {
-            playClickSound();
-            currentMode = mode;
-            await loadVerbs();
-            generateQuestions();
-            
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('gameScreen').classList.remove('hidden');
-            
-            showQuestion();
-        }
+    playClickSound();
+    currentMode = mode;
+    await loadVerbs();
+    generateQuestions();
+    
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('gameScreen').classList.remove('hidden');
+    document.getElementById('backButtonFixed').classList.remove('hidden');
+    
+    showQuestion();
+}
 
         function showQuestion() {
             if (currentQuestionIndex >= questions.length) {
@@ -845,18 +874,19 @@
         }
 
         function backToStart() {
-            playClickSound();
-            document.getElementById('gameScreen').classList.add('hidden');
-            document.getElementById('resultsScreen').classList.add('hidden');
-            document.getElementById('startScreen').classList.remove('hidden');
-            
-            // Reset game state
-            questions = [];
-            currentQuestionIndex = 0;
-            correctCount = 0;
-            wrongCount = 0;
-            answered = false;
-        }
+    playClickSound();
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('resultsScreen').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+    document.getElementById('backButtonFixed').classList.add('hidden');
+    
+    // Reset game state
+    questions = [];
+    currentQuestionIndex = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    answered = false;
+}
 
         function showResults() {
             document.getElementById('gameScreen').classList.add('hidden');
