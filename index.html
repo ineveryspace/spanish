@@ -502,13 +502,40 @@
         </header>
 
         <div id="startScreen" class="card start-screen">
-            <h2>Choose Your Mode</h2>
-            <p>Practice Spanish verb conjugations with either typing mode or multiple choice. Each session will test you on all available verbs and tenses.</p>
-            <div class="mode-selector">
-                <button class="mode-btn" onclick="startSession('type')">Type Answer</button>
-                <button class="mode-btn" onclick="startSession('choice')">Multiple Choice</button>
-            </div>
+    <h2>Choose Your Settings</h2>
+    <p>Select which tenses you want to practice, then choose your mode.</p>
+    
+    <div style="margin-bottom: 2rem;">
+        <h3 style="color: var(--accent-primary); margin-bottom: 1rem; font-size: 1.2rem;">Select Tenses:</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left; max-width: 600px; margin: 0 auto;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 0.5rem; border: 2px solid var(--border);">
+                <input type="checkbox" class="tense-checkbox" value="presente" checked style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Presente (Present)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 0.5rem; border: 2px solid var(--border);">
+                <input type="checkbox" class="tense-checkbox" value="pretérito" checked style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Pretérito (Preterite)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 0.5rem; border: 2px solid var(--border);">
+                <input type="checkbox" class="tense-checkbox" value="imperfecto" checked style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Imperfecto (Imperfect)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 0.5rem; border: 2px solid var(--border);">
+                <input type="checkbox" class="tense-checkbox" value="futuro" checked style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Futuro (Future)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; background: var(--bg-secondary); border-radius: 0.5rem; border: 2px solid var(--border);">
+                <input type="checkbox" class="tense-checkbox" value="imperativo" checked style="width: 20px; height: 20px; cursor: pointer;">
+                <span>Imperativo (Imperative)</span>
+            </label>
         </div>
+    </div>
+    
+    <div class="mode-selector">
+        <button class="mode-btn" onclick="startSession('type')">Type Answer</button>
+        <button class="mode-btn" onclick="startSession('choice')">Multiple Choice</button>
+    </div>
+</div>
 
         <div id="gameScreen" class="hidden">
             <div class="progress">
@@ -640,44 +667,52 @@
         }
 
         // Generate questions from verbs data
-        function generateQuestions() {
-            questions = [];
+function generateQuestions() {
+    questions = [];
+    
+    // Get selected tenses
+    const selectedTenses = Array.from(document.querySelectorAll('.tense-checkbox:checked')).map(cb => cb.value);
+    
+    if (selectedTenses.length === 0) {
+        alert('Please select at least one tense!');
+        return;
+    }
+    
+    for (const [verb, data] of Object.entries(verbsData)) {
+        const usedSubjects = new Set();
+        const tenses = Object.keys(data).filter(key => key !== 'translation' && selectedTenses.includes(key));
+        
+        for (const tense of tenses) {
+            const subjects = Object.keys(data[tense]);
             
-            for (const [verb, data] of Object.entries(verbsData)) {
-                const usedSubjects = new Set();
-                const tenses = Object.keys(data).filter(key => key !== 'translation');
-                
-                for (const tense of tenses) {
-                    const subjects = Object.keys(data[tense]);
-                    
-                    // Try to find a subject not yet used for this verb
-                    let selectedSubject = null;
-                    for (const subject of subjects) {
-                        if (!usedSubjects.has(subject)) {
-                            selectedSubject = subject;
-                            usedSubjects.add(subject);
-                            break;
-                        }
-                    }
-                    
-                    // If all subjects used, pick random (for verbs with fewer subjects than tenses)
-                    if (!selectedSubject) {
-                        selectedSubject = subjects[Math.floor(Math.random() * subjects.length)];
-                    }
-                    
-                    questions.push({
-                        verb: verb,
-                        translation: data.translation,
-                        tense: tense,
-                        subject: selectedSubject,
-                        answer: data[tense][selectedSubject]
-                    });
+            // Try to find a subject not yet used for this verb
+            let selectedSubject = null;
+            for (const subject of subjects) {
+                if (!usedSubjects.has(subject)) {
+                    selectedSubject = subject;
+                    usedSubjects.add(subject);
+                    break;
                 }
             }
             
-            // Shuffle questions
-            questions.sort(() => Math.random() - 0.5);
+            // If all subjects used, pick random (for verbs with fewer subjects than tenses)
+            if (!selectedSubject) {
+                selectedSubject = subjects[Math.floor(Math.random() * subjects.length)];
+            }
+            
+            questions.push({
+                verb: verb,
+                translation: data.translation,
+                tense: tense,
+                subject: selectedSubject,
+                answer: data[tense][selectedSubject]
+            });
         }
+    }
+    
+    // Shuffle questions
+    questions.sort(() => Math.random() - 0.5);
+}
 
         function getTenseTranslation(tense) {
             const translations = {
@@ -743,48 +778,45 @@
         }
 
         function generateChoices(question) {
-            const choicesDiv = document.getElementById('choiceMode');
-            choicesDiv.innerHTML = '';
-            
-            // Get wrong answers from same verb or similar verbs
-            const wrongAnswers = new Set();
-            const allForms = Object.values(verbsData[question.verb][question.tense]);
-            
-            while (wrongAnswers.size < 3) {
-                // Try from same verb first
-                if (allForms.length > 1) {
-                    const randomForm = allForms[Math.floor(Math.random() * allForms.length)];
-                    if (randomForm !== question.answer) {
-                        wrongAnswers.add(randomForm);
-                    }
-                }
-                
-                // If not enough, get from other verbs
-                if (wrongAnswers.size < 3) {
-                    const verbs = Object.keys(verbsData);
-                    const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
-                    if (verbsData[randomVerb][question.tense]) {
-                        const subjects = Object.keys(verbsData[randomVerb][question.tense]);
-                        const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-                        const randomAnswer = verbsData[randomVerb][question.tense][randomSubject];
-                        if (randomAnswer !== question.answer) {
-                            wrongAnswers.add(randomAnswer);
-                        }
-                    }
+    const choicesDiv = document.getElementById('choiceMode');
+    choicesDiv.innerHTML = '';
+    
+    // Get ALL conjugations from the SAME verb and SAME tense
+    const wrongAnswers = new Set();
+    const allForms = Object.values(verbsData[question.verb][question.tense]);
+    
+    // Add all different forms from same verb/tense
+    for (const form of allForms) {
+        if (form !== question.answer && wrongAnswers.size < 3) {
+            wrongAnswers.add(form);
+        }
+    }
+    
+    // If we don't have enough options from same tense, get from other tenses of SAME verb
+    if (wrongAnswers.size < 3) {
+        const otherTenses = Object.keys(verbsData[question.verb]).filter(key => key !== 'translation' && key !== question.tense);
+        for (const tense of otherTenses) {
+            if (wrongAnswers.size >= 3) break;
+            const forms = Object.values(verbsData[question.verb][tense]);
+            for (const form of forms) {
+                if (form !== question.answer && wrongAnswers.size < 3) {
+                    wrongAnswers.add(form);
                 }
             }
-            
-            const choices = [question.answer, ...Array.from(wrongAnswers)];
-            choices.sort(() => Math.random() - 0.5);
-            
-            choices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = choice;
-                btn.onclick = () => selectChoice(btn, choice);
-                choicesDiv.appendChild(btn);
-            });
         }
+    }
+    
+    const choices = [question.answer, ...Array.from(wrongAnswers)];
+    choices.sort(() => Math.random() - 0.5);
+    
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = choice;
+        btn.onclick = () => selectChoice(btn, choice);
+        choicesDiv.appendChild(btn);
+    });
+}
 
         function selectChoice(btn, choice) {
             if (answered) return;
