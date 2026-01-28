@@ -204,7 +204,7 @@
 
         .options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
 
@@ -640,12 +640,13 @@
                 document.getElementById('choiceMode').classList.add('hidden');
                 document.getElementById('answerInput').value = '';
                 document.getElementById('answerInput').focus();
+                document.getElementById('submitBtn').classList.remove('hidden');
                 document.getElementById('submitBtn').disabled = false;
             } else {
                 document.getElementById('typeMode').classList.add('hidden');
                 document.getElementById('choiceMode').classList.remove('hidden');
+                document.getElementById('submitBtn').classList.add('hidden');
                 generateChoices(q);
-                document.getElementById('submitBtn').disabled = true;
             }
         }
 
