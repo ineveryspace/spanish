@@ -824,34 +824,34 @@
         }
 
         function checkAnswer() {
-            if (answered || currentMode !== 'type') return;
-            
-            playClickSound();
-            
-            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
-            const correct = userAnswer === currentAnswer.toLowerCase();
-            
-            if (correct) {
-                correctCount++;
-                playCorrectSound();
-                showFeedback(true);
-            } else {
-                wrongCount++;
-                playWrongSound();
-                showFeedback(false);
-            }
-            
-            answered = true;
-            document.getElementById('correctCount').textContent = correctCount;
-            document.getElementById('wrongCount').textContent = wrongCount;
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('skipBtn').classList.add('hidden');
-            
-            setTimeout(() => {
-                currentQuestionIndex++;
-                showQuestion();
-            }, 2000);
-        }
+    if (answered || currentMode !== 'type') return;
+    
+    playClickSound();
+    
+    const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+    const correct = userAnswer === currentAnswer.toLowerCase();
+    
+    if (correct) {
+        correctCount++;
+        playCorrectSound();
+        showFeedback(true);
+    } else {
+        wrongCount++;
+        playWrongSound();
+        showFeedback(false);
+    }
+    
+    answered = true;
+    document.getElementById('correctCount').textContent = correctCount;
+    document.getElementById('wrongCount').textContent = wrongCount;
+    document.getElementById('submitBtn').classList.add('hidden');
+    document.getElementById('skipBtn').classList.add('hidden');
+    
+    setTimeout(() => {
+        currentQuestionIndex++;
+        showQuestion();
+    }, 2000);
+}
 
         function showFeedback(correct) {
             const feedback = document.getElementById('feedback');
