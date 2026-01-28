@@ -670,7 +670,6 @@
 function generateQuestions() {
     questions = [];
     
-    // Get selected tenses
     const selectedTenses = Array.from(document.querySelectorAll('.tense-checkbox:checked')).map(cb => cb.value);
     
     if (selectedTenses.length === 0) {
@@ -678,27 +677,29 @@ function generateQuestions() {
         return;
     }
     
+    // Track global subject usage for better distribution
+    const globalSubjectCount = {};
+    
     for (const [verb, data] of Object.entries(verbsData)) {
-        const usedSubjects = new Set();
         const tenses = Object.keys(data).filter(key => key !== 'translation' && selectedTenses.includes(key));
         
         for (const tense of tenses) {
             const subjects = Object.keys(data[tense]);
             
-            // Try to find a subject not yet used for this verb
-            let selectedSubject = null;
+            // Pick the least-used subject globally
+            let selectedSubject = subjects[0];
+            let minCount = Infinity;
+            
             for (const subject of subjects) {
-                if (!usedSubjects.has(subject)) {
+                const count = globalSubjectCount[subject] || 0;
+                if (count < minCount) {
+                    minCount = count;
                     selectedSubject = subject;
-                    usedSubjects.add(subject);
-                    break;
                 }
             }
             
-            // If all subjects used, pick random (for verbs with fewer subjects than tenses)
-            if (!selectedSubject) {
-                selectedSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            }
+            // Update global count
+            globalSubjectCount[selectedSubject] = (globalSubjectCount[selectedSubject] || 0) + 1;
             
             questions.push({
                 verb: verb,
