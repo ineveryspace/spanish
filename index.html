@@ -8,12 +8,884 @@
     <style>
         :root {
             --bg-primary: #0a0e27;
+            --bg-secondary: #141b3d;<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Verb Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0e27;
             --bg-secondary: #141b3d;
             --bg-card: #1a2447;
             --accent-primary: #ffd700;
             --accent-secondary: #ff6b35;
             --text-primary: #e8eaf6;
             --text-secondary: #9fa8da;
+            --success: #00e676;
+            --error: #ff1744;
+            --border: #2a3a6e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 0.8rem 2rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .mode-btn:hover::before {
+            left: 100%;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .verb-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .tense-label {
+            background: var(--bg-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .subject {
+            color: var(--accent-secondary);
+            font-weight: 700;
+        }
+
+        .input-area input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .input-area input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .option-btn {
+            padding: 1.2rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .option-btn.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: var(--error);
+            border-color: var(--error);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background: rgba(0, 230, 118, 0.2);
+            border: 2px solid var(--success);
+            color: var(--success);
+        }
+
+        .feedback.wrong {
+            background: rgba(255, 23, 68, 0.2);
+            border: 2px solid var(--error);
+            color: var(--error);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-skip {
+            flex: 0 0 auto;
+            max-width: 200px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .progress-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .results {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .results h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .score-item.correct .score-number {
+            color: var(--success);
+        }
+
+        .score-item.wrong .score-number {
+            color: var(--error);
+        }
+
+        .score-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .start-screen h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .start-screen p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .score-display {
+                gap: 2rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conjugación</h1>
+            <p class="subtitle">Spanish Verb Flashcards</p>
+        </header>
+
+        <div id="startScreen" class="card start-screen">
+            <h2>Choose Your Mode</h2>
+            <p>Practice Spanish verb conjugations with either typing mode or multiple choice. Each session will test you on all available verbs and tenses.</p>
+            <div class="mode-selector">
+                <button class="mode-btn" onclick="startSession('type')">Type Answer</button>
+                <button class="mode-btn" onclick="startSession('choice')">Multiple Choice</button>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="hidden">
+            <div class="progress">
+                <div class="progress-item">
+                    <div class="progress-label">Question</div>
+                    <div class="progress-value" id="questionNumber">1</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">Correct</div>
+                    <div class="progress-value" style="color: var(--success);" id="correctCount">0</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">Wrong</div>
+                    <div class="progress-value" style="color: var(--error);" id="wrongCount">0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="question-header">
+                    <div class="verb-name" id="verbName"></div>
+                    <div class="tense-label" id="tenseLabel"></div>
+                </div>
+                <div class="question-text" id="questionText"></div>
+                
+                <div id="typeMode" class="input-area hidden">
+                    <input type="text" id="answerInput" placeholder="Type your answer..." autocomplete="off">
+                </div>
+                
+                <div id="choiceMode" class="options hidden"></div>
+                
+                <div id="feedback" class="feedback hidden"></div>
+                
+                <div class="buttons">
+                    <button class="btn btn-primary" id="submitBtn" onclick="checkAnswer()">Submit</button>
+                    <button class="btn btn-secondary btn-skip" id="skipBtn" onclick="skipQuestion()">Skip</button>
+                    <button class="btn btn-secondary" id="backBtn" onclick="backToStart()">Back to Start</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsScreen" class="card results hidden">
+            <h2>Session Complete! 🎉</h2>
+            <div class="score-display">
+                <div class="score-item correct">
+                    <div class="score-number" id="finalCorrect">0</div>
+                    <div class="score-label">Correct</div>
+                </div>
+                <div class="score-item wrong">
+                    <div class="score-number" id="finalWrong">0</div>
+                    <div class="score-label">Wrong</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="location.reload()">Start New Session</button>
+        </div>
+    </div>
+
+    <script>
+        // Sound effects using Web Audio API (no external files needed)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playClickSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+        
+        function playCorrectSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 523.25; // C5
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+        
+        function playWrongSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 200;
+            oscillator.type = 'sawtooth';
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        let verbsData = {};
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let currentMode = '';
+        let correctCount = 0;
+        let wrongCount = 0;
+        let currentAnswer = '';
+        let answered = false;
+
+        // Load verbs data
+        async function loadVerbs() {
+            try {
+                const response = await fetch('verbs-data.json');
+                verbsData = await response.json();
+            } catch (error) {
+                console.error('Error loading verbs:', error);
+                alert('Error loading verb data. Make sure verbs-data.json is in the same directory.');
+            }
+        }
+
+        // Generate questions from verbs data
+        function generateQuestions() {
+            questions = [];
+            
+            for (const [verb, data] of Object.entries(verbsData)) {
+                const usedSubjects = new Set();
+                const tenses = Object.keys(data).filter(key => key !== 'translation');
+                
+                for (const tense of tenses) {
+                    const subjects = Object.keys(data[tense]);
+                    
+                    // Try to find a subject not yet used for this verb
+                    let selectedSubject = null;
+                    for (const subject of subjects) {
+                        if (!usedSubjects.has(subject)) {
+                            selectedSubject = subject;
+                            usedSubjects.add(subject);
+                            break;
+                        }
+                    }
+                    
+                    // If all subjects used, pick random (for verbs with fewer subjects than tenses)
+                    if (!selectedSubject) {
+                        selectedSubject = subjects[Math.floor(Math.random() * subjects.length)];
+                    }
+                    
+                    questions.push({
+                        verb: verb,
+                        translation: data.translation,
+                        tense: tense,
+                        subject: selectedSubject,
+                        answer: data[tense][selectedSubject]
+                    });
+                }
+            }
+            
+            // Shuffle questions
+            questions.sort(() => Math.random() - 0.5);
+        }
+
+        function getTenseTranslation(tense) {
+            const translations = {
+                'presente': 'Present',
+                'pretérito': 'Preterite',
+                'imperfecto': 'Imperfect',
+                'futuro': 'Future',
+                'imperativo': 'Imperative'
+            };
+            return translations[tense] || tense;
+        }
+
+        function getSubjectNote(subject) {
+            if (subject === 'usted') {
+                return ' (formal tú)';
+            }
+            return '';
+        }
+
+        async function startSession(mode) {
+            playClickSound();
+            currentMode = mode;
+            await loadVerbs();
+            generateQuestions();
+            
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            const q = questions[currentQuestionIndex];
+            answered = false;
+            currentAnswer = q.answer;
+            
+            document.getElementById('questionNumber').textContent = currentQuestionIndex + 1;
+            document.getElementById('verbName').textContent = q.verb;
+            document.getElementById('tenseLabel').textContent = `${q.tense} (${getTenseTranslation(q.tense)})`;
+            document.getElementById('questionText').innerHTML = `Conjugate <span class="subject">${q.subject}${getSubjectNote(q.subject)}</span> in ${q.tense}:`;
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('skipBtn').classList.remove('hidden');
+            
+            if (currentMode === 'type') {
+                document.getElementById('typeMode').classList.remove('hidden');
+                document.getElementById('choiceMode').classList.add('hidden');
+                document.getElementById('answerInput').value = '';
+                document.getElementById('answerInput').focus();
+                document.getElementById('submitBtn').classList.remove('hidden');
+                document.getElementById('submitBtn').disabled = false;
+            } else {
+                document.getElementById('typeMode').classList.add('hidden');
+                document.getElementById('choiceMode').classList.remove('hidden');
+                document.getElementById('submitBtn').classList.add('hidden');
+                generateChoices(q);
+            }
+        }
+
+        function generateChoices(question) {
+            const choicesDiv = document.getElementById('choiceMode');
+            choicesDiv.innerHTML = '';
+            
+            // Get wrong answers from same verb or similar verbs
+            const wrongAnswers = new Set();
+            const allForms = Object.values(verbsData[question.verb][question.tense]);
+            
+            while (wrongAnswers.size < 3) {
+                // Try from same verb first
+                if (allForms.length > 1) {
+                    const randomForm = allForms[Math.floor(Math.random() * allForms.length)];
+                    if (randomForm !== question.answer) {
+                        wrongAnswers.add(randomForm);
+                    }
+                }
+                
+                // If not enough, get from other verbs
+                if (wrongAnswers.size < 3) {
+                    const verbs = Object.keys(verbsData);
+                    const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
+                    if (verbsData[randomVerb][question.tense]) {
+                        const subjects = Object.keys(verbsData[randomVerb][question.tense]);
+                        const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+                        const randomAnswer = verbsData[randomVerb][question.tense][randomSubject];
+                        if (randomAnswer !== question.answer) {
+                            wrongAnswers.add(randomAnswer);
+                        }
+                    }
+                }
+            }
+            
+            const choices = [question.answer, ...Array.from(wrongAnswers)];
+            choices.sort(() => Math.random() - 0.5);
+            
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = choice;
+                btn.onclick = () => selectChoice(btn, choice);
+                choicesDiv.appendChild(btn);
+            });
+        }
+
+        function selectChoice(btn, choice) {
+            if (answered) return;
+            
+            playClickSound();
+            
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.remove('correct', 'wrong');
+            });
+            
+            if (choice === currentAnswer) {
+                btn.classList.add('correct');
+                playCorrectSound();
+                showFeedback(true);
+                correctCount++;
+            } else {
+                btn.classList.add('wrong');
+                playWrongSound();
+                document.querySelectorAll('.option-btn').forEach(b => {
+                    if (b.textContent === currentAnswer) {
+                        b.classList.add('correct');
+                    }
+                });
+                showFeedback(false);
+                wrongCount++;
+            }
+            
+            answered = true;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
+            document.getElementById('skipBtn').classList.add('hidden');
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 2000);
+        }
+
+        function checkAnswer() {
+            if (answered || currentMode !== 'type') return;
+            
+            playClickSound();
+            
+            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+            const correct = userAnswer === currentAnswer.toLowerCase();
+            
+            if (correct) {
+                correctCount++;
+                playCorrectSound();
+                showFeedback(true);
+            } else {
+                wrongCount++;
+                playWrongSound();
+                showFeedback(false);
+            }
+            
+            answered = true;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('skipBtn').classList.add('hidden');
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 2000);
+        }
+
+        function showFeedback(correct) {
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('hidden', 'correct', 'wrong');
+            
+            if (correct) {
+                feedback.classList.add('correct');
+                feedback.innerHTML = '✓ Correct!';
+            } else {
+                feedback.classList.add('wrong');
+                feedback.innerHTML = `✗ Wrong. The correct answer is: <strong>${currentAnswer}</strong>`;
+            }
+        }
+
+        function skipQuestion() {
+            if (answered) return;
+            playClickSound();
+            questions.splice(currentQuestionIndex, 1);
+            showQuestion();
+        }
+
+        function backToStart() {
+            playClickSound();
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            
+            // Reset game state
+            questions = [];
+            currentQuestionIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            answered = false;
+        }
+
+        function showResults() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('finalCorrect').textContent = correctCount;
+            document.getElementById('finalWrong').textContent = wrongCount;
+        }
+
+        // Allow Enter key to submit in type mode
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('answerInput')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !answered) {
+                    checkAnswer();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
             --success: #00e676;
             --error: #ff1744;
             --border: #2a3a6e;
